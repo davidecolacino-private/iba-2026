@@ -1,5 +1,5 @@
 // Barandun IBA 2026 – Offline-Unterstützung
-const VERSION = "iba26-20261002223549";
+const VERSION = "iba26-20261002224756";
 const CORE = ["./", "./index.html", "./manifest.webmanifest",
   "./icons/icon-192.png", "./icons/icon-512.png", "./icons/apple-touch-icon.png", "./icons/favicon-64.png"];
 
@@ -23,7 +23,7 @@ self.addEventListener("fetch", e => {
     return;
   }
   // Eigene Dateien und Schriften: aus dem Speicher, im Hintergrund aktualisieren
-  if (url.origin === location.origin || /fonts\.(googleapis|gstatic)\.com$/.test(url.hostname)) {
+  if (url.origin === location.origin || /fonts\.(googleapis|gstatic)\.com$|cdnjs\.cloudflare\.com$|tile\.openstreetmap\.org$/.test(url.hostname)) {
     e.respondWith(caches.match(req).then(hit => {
       const net = fetch(req).then(res => {
         if (res.ok || res.type === "opaque") { const copy = res.clone(); caches.open(VERSION).then(c => c.put(req, copy)); }
